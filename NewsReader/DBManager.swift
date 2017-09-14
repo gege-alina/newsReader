@@ -11,47 +11,87 @@ import CoreData
 
 class DBManager: NSObject {
 
-    let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var context:NSManagedObjectContext? = nil
     
-    func addTopStoriesToDatabase() {
+    static let sharedInstance = DBManager()
+    
+    private override init() {
+        context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    }
+    
+    func addTopStoriesToDatabase(_ newStory:[String:Any]) {
         
-        let story = NSEntityDescription.insertNewObject(forEntityName: "Story", into: self.moc) as! Story
-        story.id = 15238395
-        story.by = "bhouston"
-        let date = NSDate(timeIntervalSince1970: 1505311859)
-        story.time = date
-        story.title = "The bad new politics of big tech"
-        story.url = "https://www.buzzfeed.com/bensmith/theres-blood-in-the-water-in-silicon-valley"
-        story.top = true
-
         do {
-            try self.moc.save()
-        } catch {
-            fatalError("Failure to save context: \(error)")
+            let fetchRequest: NSFetchRequest<Story> = Story.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == \(String(describing: newStory["id"] as! Int64))")
+            let count = try self.context?.count(for:fetchRequest)
+            if count == 0 {
+                let story = NSEntityDescription.insertNewObject(forEntityName: "Story", into: self.context!) as! Story
+                story.id = newStory["id"] as! Int64
+                story.by = newStory["by"] as? String
+                let date = NSDate(timeIntervalSince1970: newStory["time"] as! TimeInterval)
+                story.time = date
+                story.title = newStory["title"] as? String
+                story.url = newStory["url"] as? String
+                story.top = true
+                
+//                do {
+//                    try self.moc.save()
+//                } catch {
+//                    fatalError("Failure to save context: \(error)")
+//                }
+            }
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
         }
+        
+        
         
         
     }
     
-    func addNewStoriesToDatabase() {
-        
-        let story = NSEntityDescription.insertNewObject(forEntityName: "Story", into: self.moc) as! Story
-        story.id = 15238395
-        story.by = "bhouston"
-        let date = NSDate(timeIntervalSince1970: 1505311859)
-        story.time = date
-        story.title = "NThe bad new politics of big tech"
-        story.url = "https://www.buzzfeed.com/bensmith/theres-blood-in-the-water-in-silicon-valley"
-        story.top = false
-        story.later = true
+    func addNewStoriesToDatabase(_ newStory:[String:Any]) {
         
         do {
-            try self.moc.save()
-        } catch {
-            fatalError("Failure to save context: \(error)")
+            let fetchRequest: NSFetchRequest<Story> = Story.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == \(String(describing: newStory["id"] as! Int64))")
+            let count = try self.context?.count(for:fetchRequest)
+            if count == 0 {
+                let story = NSEntityDescription.insertNewObject(forEntityName: "Story", into: self.context!) as! Story
+                story.id = newStory["id"] as! Int64
+                story.by = newStory["by"] as? String
+                let date = NSDate(timeIntervalSince1970: newStory["time"] as! TimeInterval)
+                story.time = date
+                story.title = newStory["title"] as? String
+                story.url = newStory["url"] as? String
+                story.top = false
+                
+//                do {
+//                    try self.moc.save()
+//                } catch {
+//                    fatalError("Failure to save context: \(error)")
+//                }
+            }
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
         }
+
         
         
+    }
+    
+    func saveInContext() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
     
 }

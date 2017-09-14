@@ -32,9 +32,6 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         
         tableView.register(nib, forCellReuseIdentifier: "Cell")
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-        navigationItem.rightBarButtonItem = addButton
-        
         self.title = "News Reader"
         
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
@@ -47,39 +44,15 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     func refresh(_ sender:Any) {
         
         //self.tableView.reloadData()
+        let manager:APIManager = APIManager()
+        manager.getStoriesType(type:"Top") { dict in
+            DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+        }
+        
+        manager.getStoriesType(type:"New") { dict in
+            DBManager.sharedInstance.addNewStoriesToDatabase(dict)
+        }
         self.refreshControl?.endRefreshing()
-    }
-    
-    func insertNewObject(_ sender: Any) {
-        let context = self.fetchedResultsController.managedObjectContext
-        //let newEvent = Story(context: context)
-        
-        func randomBool() -> Bool {
-            return arc4random_uniform(2) == 0
-        }
-        
-        // If appropriate, configure the new managed object.
-        let story = NSEntityDescription.insertNewObject(forEntityName: "Story", into: context) as! Story
-        story.id = 15238395
-        story.by = "bhouston"
-        let date = NSDate(timeIntervalSince1970: 1505311859)
-        story.time = date
-        story.title = "The bad new politics of big tech"
-        story.url = "https://www.buzzfeed.com/bensmith/theres-blood-in-the-water-in-silicon-valley"
-        story.top = randomBool()
-        story.favourite = randomBool()
-        story.read = false
-        
-        
-        // Save the context.
-        do {
-            try context.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,22 +63,12 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         let sectionInfo = fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
-        
-//        if section == 0 {
-//            return self.topStories.count
-//        }
-//        else if section == 1 {
-//            return self.newStories.count
-//        }
-//        return 0
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -131,17 +94,7 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         let story = fetchedResultsController.object(at: indexPath)
         story.read = true
         cell.configureCellWithStory(story)
-        let context = self.fetchedResultsController.managedObjectContext
-        
-        // Save the context.
-        do {
-            try context.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
+        DBManager.sharedInstance.saveInContext()
     }
 
     

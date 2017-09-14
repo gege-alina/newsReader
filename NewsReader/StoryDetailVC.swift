@@ -44,22 +44,7 @@ class StoryDetailVC: UIViewController {
     
     @objc private func laterButtonPressed(_ sender:Any) {
         self.story?.later = true
-        
-        guard let context = self.managedObjectContext else {
-            return
-        }
-        // Save the context.
-        do {
-            try context.save()
-            let alert = UIAlertController(title: "Save for Later", message: "Story was successfully saved for later", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
+        DBManager.sharedInstance.saveInContext()
     }
     
 

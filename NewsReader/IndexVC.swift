@@ -13,8 +13,14 @@ class IndexVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //var manager:APIManager = APIManager()
-        //manager.getTopStories()
+        let manager:APIManager = APIManager()
+        manager.getStoriesType(type: "Top") { dict in
+            DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+        }
+        
+        manager.getStoriesType(type: "New") { dict in
+            DBManager.sharedInstance.addNewStoriesToDatabase(dict)
+        }
         
         // Do any additional setup after loading the view.
     }

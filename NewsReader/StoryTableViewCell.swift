@@ -46,5 +46,14 @@ class StoryTableViewCell: UITableViewCell {
         }
         
     }
+    @IBAction func toggleFavourite(_ sender: UIButton) {
+        
+        
+    }
+
+    @IBAction func toggleRead(_ sender: UIButton) {
+        
+        
+    }
     
 }
