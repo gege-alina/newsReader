@@ -35,8 +35,19 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         navigationItem.rightBarButtonItem = addButton
         
+        self.title = "News Reader"
+        
+        self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+
+        
         //topStories = manager.getTopStoriesFromDB()
         
+    }
+    
+    func refresh(_ sender:Any) {
+        
+        //self.tableView.reloadData()
+        self.refreshControl?.endRefreshing()
     }
     
     func insertNewObject(_ sender: Any) {
