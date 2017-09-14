@@ -32,13 +32,7 @@ class APIManager: NSObject {
                     if let data = data {
                         if let stringData = String(data: data, encoding: String.Encoding.utf8) {
                     
-                            //let c = stringData.characters;
-                            let range = stringData.index(stringData.startIndex, offsetBy: 1)..<stringData.index(stringData.endIndex, offsetBy: -1)
-                            
-                            // Access the string by the range.
-                            let substring = stringData[range]
-                            
-                            let ids:[String] = substring.components(separatedBy: ",")
+                            let ids = self.parseJsonFromData(data)
                             var numberOfStories = 15//ids.count
                             //for storyId in ids
                             for i in 0..<min(15, ids.count)
@@ -63,9 +57,9 @@ class APIManager: NSObject {
         
     }
     
-    func getStoryWithId(_ id:String, completionHandler handler: @escaping ([String:Any]) -> Void, callback:@escaping ((Void) -> Void)) {
+    func getStoryWithId(_ id:Int, completionHandler handler: @escaping ([String:Any]) -> Void, callback:@escaping ((Void) -> Void)) {
         
-        let url = URL(string: Constants.storyURL + id + Constants.storyExtension)
+        let url = URL(string: Constants.storyURL + "\(id)" + Constants.storyExtension)
         if let usableUrl = url {
             let request = URLRequest(url: usableUrl)
             let task = URLSession.shared.dataTask(with: request,
@@ -97,5 +91,18 @@ class APIManager: NSObject {
         }
         return nil
     }
+
+    func parseJsonFromData(_ data:Data) -> [Int] {
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            guard let array = json as? [Int] else {
+                return []
+            }
+            return array
+        } catch {
+            return []
+        }
+    }
+
     
 }
