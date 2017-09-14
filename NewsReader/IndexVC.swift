@@ -14,12 +14,20 @@ class IndexVC: UITabBarController {
         super.viewDidLoad()
 
         let manager:APIManager = APIManager()
-        manager.getStoriesType(type: "Top") { dict in
-            DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+        DispatchQueue.global(qos: .userInitiated).async {
+            manager.getStoriesType(type: "Top") { dict in
+                DispatchQueue.main.sync {
+                    DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+                }
+            }
         }
         
-        manager.getStoriesType(type: "New") { dict in
-            DBManager.sharedInstance.addNewStoriesToDatabase(dict)
+        DispatchQueue.global(qos: .userInitiated).async {
+            manager.getStoriesType(type: "New") { dict in
+                DispatchQueue.main.sync {
+                    DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+                }
+            }
         }
         
         // Do any additional setup after loading the view.

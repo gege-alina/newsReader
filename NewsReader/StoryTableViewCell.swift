@@ -14,6 +14,7 @@ class StoryTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     @IBOutlet var readButton: UIButton!
+    var story:Story? = nil
     
     
     override func awakeFromNib() {
@@ -28,31 +29,58 @@ class StoryTableViewCell: UITableViewCell {
     }
     
     func configureCellWithStory(_ story: Story) {
-        self.titleLabel!.text = story.title
-        guard let date = story.time as Date? else {
+        guard let titleLabel = self.titleLabel,
+        let detailLabel = self.detailLabel else {
             return
         }
-        self.detailLabel?.text = String(date.toString(dateFormat: "dd-MM-YYYY"))
-        if story.favourite {
-            self.favButton.imageView?.isHidden = false
+        titleLabel.text = story.title
+        if let date = story.time as Date? {
+            detailLabel.text = String(date.toString(dateFormat: "dd-MM-YYYY"))
+        }
+        
+        if story.later {
+            self.favButton.imageView?.image = UIImage(named: "star")
+            self.favButton.isHidden = false
+            self.favButton.isEnabled = true
         }
         else
         {
-            self.favButton.imageView?.isHidden = true
+            self.favButton.imageView?.image = nil
+            self.favButton.isHidden = false
+            self.favButton.isEnabled = true
         }
         
         if story.read {
             self.readButton.imageView?.image = UIImage(named: "fullFlag")
         }
+        else {
+            self.readButton.imageView?.image = UIImage(named: "flag")
+        }
+
         
     }
     @IBAction func toggleFavourite(_ sender: UIButton) {
-        
-        
+        if let isFav = self.story {
+            if isFav.favourite {
+                isFav.favourite = false
+            }
+            else {
+                isFav.favourite = true
+            }
+        }
+        DBManager.sharedInstance.saveInContext()
     }
 
     @IBAction func toggleRead(_ sender: UIButton) {
-        
+        if let isRead = self.story {
+            if isRead.read {
+                isRead.read = false
+            }
+            else {
+                isRead.read = true
+            }
+        }
+        DBManager.sharedInstance.saveInContext()
         
     }
     

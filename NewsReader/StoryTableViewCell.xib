@@ -16,24 +16,24 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHm-V9-c1R">
-                        <rect key="frame" x="44" y="23.5" width="232.5" height="19.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHm-V9-c1R">
+                        <rect key="frame" x="44" y="19" width="233" height="24"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SH2-eZ-Cc0">
-                        <rect key="frame" x="44" y="0.0" width="276" height="23.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SH2-eZ-Cc0">
+                        <rect key="frame" x="44" y="0.0" width="276" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="8"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vJm-BS-qIA">
                         <rect key="frame" x="0.0" y="0.0" width="44" height="43.5"/>
-                        <state key="normal" image="star"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <connections>
                             <action selector="toggleFavourite:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zni-Od-LEw"/>
                         </connections>
@@ -44,7 +44,6 @@
                             <constraint firstAttribute="width" secondItem="mCm-8T-7l6" secondAttribute="height" multiplier="1:1" id="SE2-ma-g55"/>
                         </constraints>
                         <state key="normal" image="flag"/>
-                        <state key="selected" image="fullFlag"/>
                         <connections>
                             <action selector="toggleRead:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9kk-Ut-kKF"/>
                         </connections>
@@ -80,7 +79,5 @@
     </objects>
     <resources>
         <image name="flag" width="18" height="25"/>
-        <image name="fullFlag" width="18" height="25"/>
-        <image name="star" width="25" height="25"/>
     </resources>
 </document>

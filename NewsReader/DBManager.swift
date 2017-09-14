@@ -34,12 +34,9 @@ class DBManager: NSObject {
                 story.title = newStory["title"] as? String
                 story.url = newStory["url"] as? String
                 story.top = true
-                
-//                do {
-//                    try self.moc.save()
-//                } catch {
-//                    fatalError("Failure to save context: \(error)")
-//                }
+                story.favourite = false
+                story.later = false
+
             }
         } catch let error as NSError {
             print("Error: \(error.localizedDescription)")
@@ -65,12 +62,8 @@ class DBManager: NSObject {
                 story.title = newStory["title"] as? String
                 story.url = newStory["url"] as? String
                 story.top = false
-                
-//                do {
-//                    try self.moc.save()
-//                } catch {
-//                    fatalError("Failure to save context: \(error)")
-//                }
+                story.favourite = false
+                story.later = false
             }
         } catch let error as NSError {
             print("Error: \(error.localizedDescription)")
@@ -82,16 +75,17 @@ class DBManager: NSObject {
     
     func saveInContext() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        if context.hasChanges {
+        //if context.hasChanges {
             do {
                 try context.save()
+                print ("I SAVE")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
-        }
+        //}
     }
     
 }

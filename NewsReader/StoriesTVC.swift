@@ -18,39 +18,33 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        //var manager:APIManager = APIManager()
-        //manager.getTopStories()
         
         let nib = UINib(nibName: "StoryTableViewCell", bundle: nil)
-        
         tableView.register(nib, forCellReuseIdentifier: "Cell")
         
         self.title = "News Reader"
         
         self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-
-        
-        //topStories = manager.getTopStoriesFromDB()
         
     }
     
     func refresh(_ sender:Any) {
         
-        //self.tableView.reloadData()
         let manager:APIManager = APIManager()
-        manager.getStoriesType(type:"Top") { dict in
-            DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+        DispatchQueue.global(qos: .userInitiated).async {
+            manager.getStoriesType(type: "Top") { dict in
+                DispatchQueue.main.sync {
+                    DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+                }
+            }
         }
         
-        manager.getStoriesType(type:"New") { dict in
-            DBManager.sharedInstance.addNewStoriesToDatabase(dict)
+        DispatchQueue.global(qos: .userInitiated).async {
+            manager.getStoriesType(type: "New") { dict in
+                DispatchQueue.main.sync {
+                    DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+                }
+            }
         }
         self.refreshControl?.endRefreshing()
     }
@@ -84,6 +78,7 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! StoryTableViewCell
         let story = fetchedResultsController.object(at: indexPath)
+        cell.story = story
         cell.configureCellWithStory(story)
         return cell
     }
@@ -93,6 +88,7 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         self.performSegue(withIdentifier: "showStory", sender: cell)
         let story = fetchedResultsController.object(at: indexPath)
         story.read = true
+        cell.story = story
         cell.configureCellWithStory(story)
         DBManager.sharedInstance.saveInContext()
     }
@@ -167,41 +163,6 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     
     // MARK: - Navigation

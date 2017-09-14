@@ -21,4 +21,7 @@ struct Constants {
     static let topURL = Root.baseURL + Route.topStories
     static let storyURL = Root.baseURL + Route.story
     static let storyExtension = ".json"
+    
+    static let top = "Top"
+    static let new = "New"
 }

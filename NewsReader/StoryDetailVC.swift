@@ -9,15 +9,20 @@
 import UIKit
 import CoreData
 
-class StoryDetailVC: UIViewController {
+class StoryDetailVC: UIViewController, UIWebViewDelegate {
 
     @IBOutlet var webView: UIWebView!
     //var url:String? = nil
     var story:Story? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = self.view.center
+        //self.view.addSubview(activityIndicator)
         reload()
         
         let laterButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(laterButtonPressed(_:)))
@@ -38,15 +43,41 @@ class StoryDetailVC: UIViewController {
     private func reload() {
         if let urlString = self.story?.url,
             let url = URL(string: urlString) {
-                self.webView.loadRequest(URLRequest(url: url))
+            self.webView.loadRequest(URLRequest(url: url))
+            activityIndicator.startAnimating()
         }
     }
     
     @objc private func laterButtonPressed(_ sender:Any) {
-        self.story?.later = true
+        if let isLater = self.story {
+            if isLater.later {
+                isLater.later = false
+            }
+            else {
+                isLater.later = true
+            }
+        }
+        
         DBManager.sharedInstance.saveInContext()
+        if (self.story?.later)! {
+            let alert = UIAlertController(title: "Save for Later", message: "Story was successfully saved for later", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            let alert = UIAlertController(title: "Removed from Later", message: "Story was successfully unsaved", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
+    func webViewDidStartLoad(_ webView: UIWebView) {
+        activityIndicator.startAnimating()
+    }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        activityIndicator.stopAnimating()
+    }
 
     /*
     // MARK: - Navigation

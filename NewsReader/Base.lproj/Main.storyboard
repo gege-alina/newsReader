@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EPX-HD-h8T" id="fF4-w1-5yB">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
@@ -100,7 +100,7 @@
         <scene sceneID="BUk-6r-EGG">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7yf-x6-11g" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Top&amp;New Stories" id="gPr-y8-lBW"/>
+                    <tabBarItem key="tabBarItem" title="Top&amp;New Stories" image="star" selectedImage="star" id="gPr-y8-lBW"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZWw-RQ-4Oy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -128,7 +128,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xrw-fz-o6j" id="9q7-BL-A1p">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="64.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -155,7 +155,7 @@
         <scene sceneID="vgG-yK-tiC">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QPi-FP-y4N" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Saved For Later" id="6st-07-Jsy"/>
+                    <tabBarItem key="tabBarItem" title="Saved For Later" image="fullFlag" selectedImage="fullFlag" id="6st-07-Jsy"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fSg-Cw-EYM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -171,6 +171,10 @@
             <point key="canvasLocation" x="245.59999999999999" y="230.73463268365819"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="fullFlag" width="18" height="25"/>
+        <image name="star" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="X6U-EA-3QN"/>
     </inferredMetricsTieBreakers>

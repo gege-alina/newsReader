@@ -14,12 +14,14 @@ class APIManager: NSObject {
         
         var url:URL?
         
-        if type == "Top" {
+        if type == Constants.top {
             url = URL(string: Constants.topURL)
         }
-        else
-        {
+        else if type == Constants.new {
             url = URL(string: Constants.newsURL)
+        }
+        else {
+            return
         }
 
         if let usableUrl = url {
@@ -47,9 +49,6 @@ class APIManager: NSObject {
                                         DBManager.sharedInstance.saveInContext()
                                     }
                                 }
-//                                if numberOfStories == 0 {
-//                                    DBManager.sharedInstance.saveInContext()
-//                                }
                             }
                         
                         }
@@ -71,10 +70,10 @@ class APIManager: NSObject {
                     if let data = data {
                         if let stringData = String(data: data, encoding: String.Encoding.utf8) {
                             
-                            let dict = self.convertToDictionary(text:stringData)
-                            //print(dict!)
-                            handler(dict!)
-                            callback()
+                            if let dict = self.convertToDictionary(text:stringData) {
+                                handler(dict)
+                                callback()
+                            }
                         }
                         
                         
@@ -94,5 +93,5 @@ class APIManager: NSObject {
         }
         return nil
     }
-
+    
 }
