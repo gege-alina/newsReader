@@ -7,13 +7,15 @@
 //
 
 import UIKit
-
+class Helper {
+    
+    static let dateFormatter = DateFormatter()
+}
 extension Date
 {
     func toString( dateFormat format  : String ) -> String
     {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        return dateFormatter.string(from: self)
+        Helper.dateFormatter.dateFormat = format
+        return Helper.dateFormatter.string(from: self)
     }
 }

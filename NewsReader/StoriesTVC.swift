@@ -42,7 +42,7 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         DispatchQueue.global(qos: .userInitiated).async {
             manager.getStoriesType(type: "New") { dict in
                 DispatchQueue.main.sync {
-                    DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+                    DBManager.sharedInstance.addNewStoriesToDatabase(dict)
                 }
             }
         }
@@ -80,6 +80,7 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         let story = fetchedResultsController.object(at: indexPath)
         cell.story = story
         cell.configureCellWithStory(story)
+        print(story.top)
         return cell
     }
     
@@ -104,7 +105,7 @@ class StoriesTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         let fetchRequest: NSFetchRequest<Story> = Story.fetchRequest()
         
         // Set the batch size to a suitable number.
-        //fetchRequest.fetchBatchSize = 20
+        //fetchRequest.fetchBatchSize = 30
         
         // Edit the sort key as appropriate.
         let sortDescriptorTop = NSSortDescriptor(key: "top", ascending: false)

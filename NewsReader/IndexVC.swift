@@ -25,7 +25,7 @@ class IndexVC: UITabBarController {
         DispatchQueue.global(qos: .userInitiated).async {
             manager.getStoriesType(type: "New") { dict in
                 DispatchQueue.main.sync {
-                    DBManager.sharedInstance.addTopStoriesToDatabase(dict)
+                    DBManager.sharedInstance.addNewStoriesToDatabase(dict)
                 }
             }
         }

@@ -452,7 +452,6 @@
 		2EA309C71F69A9DE009C20FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = L59K5M257Z;
 				INFOPLIST_FILE = NewsReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -466,7 +465,6 @@
 		2EA309C81F69A9DE009C20FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = L59K5M257Z;
 				INFOPLIST_FILE = NewsReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

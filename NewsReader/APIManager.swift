@@ -39,15 +39,19 @@ class APIManager: NSObject {
                             let substring = stringData[range]
                             
                             let ids:[String] = substring.components(separatedBy: ",")
-                            var numberOfStories = ids.count
-                            for storyId in ids
+                            var numberOfStories = 15//ids.count
+                            //for storyId in ids
+                            for i in 0..<min(15, ids.count)
                             {
+                                let storyId = ids[i]
+                                if numberOfStories > 0 {
                                 self.getStoryWithId(storyId, completionHandler: handler) {
                                     numberOfStories = numberOfStories - 1
                                     print(numberOfStories)
                                     if numberOfStories == 0 {
                                         DBManager.sharedInstance.saveInContext()
                                     }
+                                }
                                 }
                             }
                         
